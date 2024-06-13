@@ -35,9 +35,9 @@ class DashboardFragment : Fragment() {
     }
 
     private fun addContact() {
-        val name = binding.etName.text.toString()
-        val phone = binding.etPhone.text.toString()
-        val email = binding.etEmail.text.toString()
+        val name = binding.edtName.text.toString()
+        val phone = binding.edtPhone.text.toString()
+        val email = binding.edtEmail.text.toString()
 
         if (name.isEmpty() || phone.isEmpty() || email.isEmpty()) {
             Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()

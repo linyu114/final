@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/btn_add_contact"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddContact"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,7 @@
 
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/edtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -56,7 +56,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnSave"
+        android:id="@+id/btnAddContact"
         android:layout_width="85dp"
         android:layout_height="66dp"
         android:layout_marginTop="32dp"
