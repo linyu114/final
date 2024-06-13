@@ -10,6 +10,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.afinal.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,31 +37,5 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        //正在研究存資料
-        val edtName = findViewById<TextView>(R.id.et_name)
-        val edtPhone = findViewById<TextView>(R.id.et_phone)
-        val edtEmail = findViewById<TextView>(R.id.et_email)
-
-        findViewById<Button>(R.id.btn_add_contact).setOnClickListener {
-            val sharePref = getPreferences(MODE_PRIVATE) ?: return@setOnClickListener
-            with(sharePref.edit()){
-                putString("Name",edtName.text.toString()) //儲存Name
-                putString("Phone_Number",edtPhone.text.toString()) //儲存Phone_Number
-                putString("Email",edtEmail.text.toString()) //儲存Email
-                apply() //先這樣 (較commit快)
-            }
-        }
-        /*
-
-        findViewById<Button>(R.id.btnSave).setOnClickListener {
-                    val sharedPref = getPreferences(MODE_PRIVATE) ?: return@setOnClickListener
-                                with (sharedPref.edit()) {
-                                putString("userName", edtName.text.toString())
-                                putFloat("rating", ratingBar.rating)
-                                apply()
-                                }
-
-
-        */
     }
 }

@@ -1,4 +1,5 @@
 package com.example.afinal
+import androidx.annotation.Nullable
 import androidx.room.*
 @Entity(tableName = "contact") //資料表名稱=聯絡人
 data class firstEntity(
