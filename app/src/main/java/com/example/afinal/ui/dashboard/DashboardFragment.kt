@@ -11,6 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.afinal.AppDatabase
 import com.example.afinal.databinding.FragmentDashboardBinding
 import com.example.afinal.firstEntity
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DashboardFragment : Fragment() {
@@ -18,23 +21,26 @@ class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var dashboardViewModel: DashboardViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
+        dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.btnAddContact.setOnClickListener { addContact() }
+        binding.btnAddContact.setOnClickListener {
+            addContact(it)
+        }
 
         return root
     }
 
-    private fun addContact() {
+    private fun addContact(it: View) {
         val name = binding.edtName.text.toString()
         val phone = binding.edtPhone.text.toString()
         val email = binding.edtEmail.text.toString()
@@ -47,10 +53,11 @@ class DashboardFragment : Fragment() {
         val contact = firstEntity(name = name, phone = phone, email = email)
         val database = context?.let { AppDatabase.getInstance(it) }
 
-        lifecycleScope.launch {
+        CoroutineScope(Dispatchers.IO).launch{
             database?.userDao()?.insert(contact)
-            Toast.makeText(context, "Contact added", Toast.LENGTH_SHORT).show()
+            Snackbar.make(it, "Contact added", Snackbar.LENGTH_SHORT).show()
         }
+
     }
 
     override fun onDestroyView() {
