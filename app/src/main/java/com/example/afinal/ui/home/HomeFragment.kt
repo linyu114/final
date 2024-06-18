@@ -61,15 +61,10 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-
         // Set up the ListView with the custom adapter
         val listView: ListView = binding.list
         val items = listOf(
-            ListItem(R.drawable.ic_launcher_foreground,"Item 1", R.drawable.pen, R.drawable.delete),
+            ListItem(R.drawable.ic_launcher_foreground, "Item 1", R.drawable.pen, R.drawable.delete),
             ListItem(R.drawable.ic_launcher_foreground, "Item 2", R.drawable.pen, R.drawable.delete),
             ListItem(R.drawable.ic_launcher_foreground, "Item 3", R.drawable.pen, R.drawable.delete)
         )
