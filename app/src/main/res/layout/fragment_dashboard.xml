@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E9F6FB"
+    android:background="#E8F5FA"
     tools:context=".ui.dashboard.DashboardFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="#E7F4F9"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -56,31 +57,30 @@
             android:layout_marginTop="32dp"
             android:contentDescription="Contact Photo"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_foreground" /> <!-- replace with your default image or placeholder -->
+            android:src="@drawable/ic_launcher_foreground" />
+
+        <!-- replace with your default image or placeholder -->
     </LinearLayout>
 
-    <Button
+    <ImageButton
         android:id="@+id/btnAddContact"
-        android:layout_width="85dp"
-        android:layout_height="66dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="56dp"
-        android:backgroundTint="#BF99CADF"
-        android:text="新增"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="48dp"
+        android:src="@drawable/add"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:ignore="SpeakableTextPresentCheck" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnAddPhoto"
-        android:layout_width="85dp"
-        android:layout_height="66dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="56dp"
-        android:backgroundTint="#BF99CADF"
-        android:text="新增照片"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnAddContact" />
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="28dp"
+        android:src="@drawable/addphoto"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAddContact"
+        app:layout_constraintStart_toEndOf="@+id/btnAddContact"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
