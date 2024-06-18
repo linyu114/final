@@ -13,7 +13,7 @@
         android:layout_marginTop="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/phone_call" />
+        app:srcCompat="@android:drawable/ic_btn_speak_now" />
 
     <TextView
         android:id="@+id/text"
