@@ -12,14 +12,22 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.afinal.R
 import com.example.afinal.databinding.FragmentHomeBinding
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.widget.ArrayAdapter
+import com.example.afinal.firstDAO
+import com.example.afinal.AppDatabase
+import com.example.afinal.firstEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 data class ListItem(
-    val imageResId: Int,
+    val photo: Int,
     val name: String,
     val phone: String,
-    val penResId: Int,
-    val deleteResId: Int
+    val pen: Int,
+    val delete: Int
 )
 
 class CustomAdapter(
@@ -28,22 +36,44 @@ class CustomAdapter(
     private val items: List<ListItem>
 ) : ArrayAdapter<ListItem>(context, layoutResource, items) {
 
+    private val firstDAO: firstDAO = AppDatabase.getInstance(context).userDao()
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = convertView ?: LayoutInflater.from(context).inflate(layoutResource, parent, false)
 
+        // 根據位置從 items 中取出 ListItem
         val item = items[position]
 
-        val imageView: ImageView = view.findViewById(R.id.imageView)
-        val name: TextView = view.findViewById(R.id.nameTextView)
-        val phone: TextView = view.findViewById(R.id.phoneTextView)
-        val pen: ImageView = view.findViewById(R.id.penImageView)
-        val delete: ImageView = view.findViewById(R.id.deleteImageView)
+        val photo: ImageView = view.findViewById(R.id.photoShow)
+        val name: TextView = view.findViewById(R.id.nameShow)
+        val phone: TextView = view.findViewById(R.id.phoneShow)
+        val pen: ImageView = view.findViewById(R.id.penFun)
+        val delete: ImageView = view.findViewById(R.id.deleteFun)
 
-        imageView.setImageResource(item.imageResId)
+        // 設置圖片、名字和手機號碼
+        photo.setImageResource(item.photo)
         name.text = item.name
         phone.text = item.phone
-        pen.setImageResource(item.penResId)
-        delete.setImageResource(item.deleteResId)
+        pen.setImageResource(item.pen)
+        delete.setImageResource(item.delete)
+
+        // 在這裡你可以使用 Room 資料庫來讀取 Contact 資料
+        GlobalScope.launch(Dispatchers.IO) {
+            val contact = firstDAO.findUserByName(item.name)
+            withContext(Dispatchers.Main) {
+                if (contact != null) {
+                    if (contact.photoPath != null) {
+                        val bitmap = BitmapFactory.decodeFile(contact.photoPath)
+                        photo.setImageBitmap(bitmap)
+                    }
+                    name.text = contact.name ?: item.name
+                    phone.text = contact.phone ?: item.phone
+                } else {
+                    name.text = item.name
+                    phone.text = item.phone
+                }
+            }
+        }
 
         return view
     }
@@ -53,6 +83,8 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private lateinit var customAdapter: CustomAdapter
+    private lateinit var firstDAO: firstDAO
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,15 +96,26 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // 設置自訂的 ListView adapter
-        val listView: ListView = binding.list
-        val items = listOf(
-            ListItem(R.drawable.ic_launcher_foreground, "Item 1", "123-456-7890", R.drawable.pen, R.drawable.delete),
-            ListItem(R.drawable.ic_launcher_foreground, "Item 2", "098-765-4321", R.drawable.pen, R.drawable.delete),
-            ListItem(R.drawable.ic_launcher_foreground, "Item 3", "555-555-5555", R.drawable.pen, R.drawable.delete)
-        )
-        val adapter = CustomAdapter(requireContext(), R.layout.item, items)
-        listView.adapter = adapter
+        // 初始化 firstDAO
+        firstDAO = AppDatabase.getInstance(requireContext()).userDao()
+
+        // 從資料庫中抓取資料並設置自訂的 ListView adapter
+        GlobalScope.launch(Dispatchers.IO) {
+            val contacts = firstDAO.getAll() // 取得所有的 Contact 資料
+            val items = contacts.map {
+                ListItem(
+                    photo = it.photoPath?.let { path -> R.drawable.ic_launcher_foreground } ?: R.drawable.ic_launcher_foreground,
+                    name = it.name ?: "",
+                    phone = it.phone ?: "",
+                    pen = R.drawable.pen,
+                    delete = R.drawable.delete
+                )
+            }
+            withContext(Dispatchers.Main) {
+                customAdapter = CustomAdapter(requireContext(), R.layout.item, items)
+                binding.list.adapter = customAdapter
+            }
+        }
 
         return root
     }

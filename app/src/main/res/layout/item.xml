@@ -7,7 +7,7 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/photoShow"
         android:layout_width="80dp"
         android:layout_height="80dp"
         tools:srcCompat="@tools:sample/avatars" />
@@ -19,14 +19,14 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/nameTextView"
+            android:id="@+id/nameShow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/phoneTextView"
+            android:id="@+id/phoneShow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Phone Number"
@@ -34,13 +34,13 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/penImageView"
+        android:id="@+id/penFun"
         android:layout_width="48dp"
         android:layout_height="48dp"
         app:srcCompat="@drawable/pen" />
 
     <ImageView
-        android:id="@+id/deleteImageView"
+        android:id="@+id/deleteFun"
         android:layout_width="48dp"
         android:layout_height="48dp"
         app:srcCompat="@drawable/delete" />
