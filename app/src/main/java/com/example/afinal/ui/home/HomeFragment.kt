@@ -16,7 +16,8 @@ import android.widget.ArrayAdapter
 
 data class ListItem(
     val imageResId: Int,
-    val text: String,
+    val name: String,
+    val phone: String,
     val penResId: Int,
     val deleteResId: Int
 )
@@ -33,14 +34,16 @@ class CustomAdapter(
         val item = items[position]
 
         val imageView: ImageView = view.findViewById(R.id.imageView)
-        val textView: TextView = view.findViewById(R.id.textView)
-        val penImageView: ImageView = view.findViewById(R.id.imageView2)
-        val deleteImageView: ImageView = view.findViewById(R.id.imageView3)
+        val name: TextView = view.findViewById(R.id.nameTextView)
+        val phone: TextView = view.findViewById(R.id.phoneTextView)
+        val pen: ImageView = view.findViewById(R.id.penImageView)
+        val delete: ImageView = view.findViewById(R.id.deleteImageView)
 
         imageView.setImageResource(item.imageResId)
-        textView.text = item.text
-        penImageView.setImageResource(item.penResId)
-        deleteImageView.setImageResource(item.deleteResId)
+        name.text = item.name
+        phone.text = item.phone
+        pen.setImageResource(item.penResId)
+        delete.setImageResource(item.deleteResId)
 
         return view
     }
@@ -61,12 +64,12 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Set up the ListView with the custom adapter
+        // 設置自訂的 ListView adapter
         val listView: ListView = binding.list
         val items = listOf(
-            ListItem(R.drawable.ic_launcher_foreground, "Item 1", R.drawable.pen, R.drawable.delete),
-            ListItem(R.drawable.ic_launcher_foreground, "Item 2", R.drawable.pen, R.drawable.delete),
-            ListItem(R.drawable.ic_launcher_foreground, "Item 3", R.drawable.pen, R.drawable.delete)
+            ListItem(R.drawable.ic_launcher_foreground, "Item 1", "123-456-7890", R.drawable.pen, R.drawable.delete),
+            ListItem(R.drawable.ic_launcher_foreground, "Item 2", "098-765-4321", R.drawable.pen, R.drawable.delete),
+            ListItem(R.drawable.ic_launcher_foreground, "Item 3", "555-555-5555", R.drawable.pen, R.drawable.delete)
         )
         val adapter = CustomAdapter(requireContext(), R.layout.item, items)
         listView.adapter = adapter
