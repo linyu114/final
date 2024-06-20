@@ -21,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import androidx.appcompat.app.AlertDialog
 
 data class ListItem(
     val photo: Int,
@@ -57,6 +58,12 @@ class CustomAdapter(
         pen.setImageResource(item.pen)
         delete.setImageResource(item.delete)
 
+        // 點擊 delete icon 顯示刪除確認對話框
+        delete.setOnClickListener {
+            showDeleteConfirmationDialog(context, item)
+        }
+
+
         // 在這裡你可以使用 Room 資料庫來讀取 Contact 資料
         GlobalScope.launch(Dispatchers.IO) {
             val contact = firstDAO.findUserByName(item.name)
@@ -77,6 +84,26 @@ class CustomAdapter(
 
         return view
     }
+}
+
+private fun showDeleteConfirmationDialog(context: Context, item: ListItem) {
+    val builder = AlertDialog.Builder(context)
+    builder.setTitle("確認刪除")
+    builder.setMessage("確定要刪除 ${item.name} 嗎？")
+    builder.setPositiveButton("確定") { dialog, _ ->
+        GlobalScope.launch(Dispatchers.IO) {
+            val contact = AppDatabase.getInstance(context).userDao().findUserByName(item.name)
+            if (contact != null) {
+                AppDatabase.getInstance(context).userDao().delete(contact)
+            }
+        }
+        dialog.dismiss()
+    }
+    builder.setNegativeButton("取消") { dialog, _ ->
+        dialog.dismiss()
+    }
+    val dialog = builder.create()
+    dialog.show()
 }
 
 class HomeFragment : Fragment() {
