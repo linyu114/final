@@ -17,7 +17,12 @@ import com.example.afinal.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-
+/*
+* 組員名單
+* 11056006林郁軒
+* 11056022陳思妤
+* 11056049鄭希妍
+*/
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
